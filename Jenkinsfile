@@ -14,8 +14,6 @@ pipeline {
 
         stage('Build') {
             bat 'gradle build'
-            }
-
         }
     }
 }
