@@ -19,7 +19,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '11'  # Choose your preferred Java version
+          java-version: '17'  # Choose your preferred Java version
           distribution: 'temurin'
 
       - name: Set up Gradle
