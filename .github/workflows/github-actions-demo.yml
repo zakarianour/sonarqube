@@ -27,3 +27,12 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build --stacktrace --scan
+
+      - name: Run tests
+        run: ./gradlew test --stacktrace
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: build/reports/tests/test
