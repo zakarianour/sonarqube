@@ -20,8 +20,12 @@
 package org.sonar.server.issue.ws.anticipatedtransition;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.server.component.ComponentTypeTree;
@@ -234,7 +238,21 @@ public class AnticipatedTransitionsActionIT {
   }
 
   private String readTestResourceFile(String fileName) throws IOException {
-    return Files.readString(Path.of(getClass().getResource(fileName).getPath()));
+    URL resourceUrl = getClass().getResource(fileName);
+    if (resourceUrl == null) {
+      throw new IOException("Resource file not found: " + fileName);
+    }
+
+    try {
+      Path filePath = Paths.get(resourceUrl.toURI());  // Fixes Windows path issues
+      return Files.readString(filePath);
+    } catch (URISyntaxException e) {
+      // Handle Windows incorrect path format ("/C:/...") by manually correcting it
+      String correctedPath = resourceUrl.getPath().replaceFirst("^/(.:/)", "$1");
+      return Files.readString(Paths.get(correctedPath));
+    }
   }
+
+
 
 }
