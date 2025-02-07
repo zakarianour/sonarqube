@@ -261,6 +261,22 @@ subprojects {
     }
   }
 
+  test {
+    ignoreFailures = true
+    testLogging {
+      events 'passed', 'failed', 'skipped'
+    }
+  }
+
+  task bbtTest(type: Test) {
+    testClassesDirs = sourceSets.bbt.output.classesDirs
+    classpath = sourceSets.bbt.runtimeClasspath
+    ignoreFailures = true
+    testLogging {
+      events 'passed', 'failed', 'skipped'
+    }
+  }
+
   configurations {
     bbtCompile.extendsFrom testCompile
     bbtRuntime.extendsFrom testRuntime
