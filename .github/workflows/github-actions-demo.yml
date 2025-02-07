@@ -1,13 +1,3 @@
-name: Build and Analyze with SonarQube
-
-on:
-  push:
-    branches:
-      - master  # Trigger workflow on push to the main branch
-  pull_request:
-    branches:
-      - master  # Trigger workflow on pull requests to the main branch
-
 jobs:
   build-and-analyze:
     runs-on: ubuntu-latest
@@ -16,14 +6,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'  # Choose your preferred Java version
-          distribution: 'temurin'
+      - name: Set up Oracle OpenJDK 17
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk
+          java -version  # Verify Java version
 
       - name: Set up Gradle
         uses: gradle/wrapper-validation-action@v1
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace --scan
