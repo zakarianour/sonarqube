@@ -17,11 +17,5 @@ pipeline {
                 sh './gradlew clean build'
             }
         }
-
-        stage('Unit Tests') {
-            steps {
-                sh './gradlew test'
-            }
-        }
     }
 }
